@@ -62,5 +62,6 @@
 
     <key>NSCameraUsageDescription</key>
     <string>This app requires access to the device&apos;s camera.</string>
+    
 </dict>
 </plist>

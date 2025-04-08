@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:odyssey/models/containers/container_item_model.dart';
 import 'package:odyssey/models/items/item_model.dart';
 import 'package:odyssey/pocketbase.dart';
+import 'package:odyssey/routes/remote_urls.dart';
 import 'package:odyssey/screens/screen_with_navigation.dart';
 import 'package:odyssey/widgets/buttons/styled_button.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:http/http.dart' as http;
 
 class ContainerScreen extends StatefulWidget {
   final String containerId;
@@ -116,8 +121,6 @@ class ContainerScreenBody extends StatefulWidget {
 
 class ContainerScreenBodyState
     extends State<ContainerScreenBody> {
-  XFile? _selectedPhoto;
-
   Future _takePhoto(BuildContext context) async {
     bool? isCamera = await showDialog(
       context: context,
@@ -134,9 +137,50 @@ class ContainerScreenBodyState
               : ImageSource.gallery,
     );
 
-    setState(() {
-      _selectedPhoto = file;
-    });
+    if (file != null) {
+      final uri = Uri.parse(RemoteUrls.photoServerUrl);
+      final request = http.MultipartRequest("POST", uri);
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'file',
+          await file.readAsBytes(),
+          filename: file.name,
+          contentType: MediaType.parse(
+            file.mimeType ?? "image/heic",
+          ),
+        ),
+      );
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(
+        streamedResponse,
+      );
+
+      final responseData = json.decode(response.body);
+
+      final responseItems =
+          responseData["items"] as List<dynamic>;
+
+      final models = await Future.wait(
+        responseItems.map((item) async {
+          return pb
+              .collection("items")
+              .create(
+                body: {
+                  "name": item["class_name"] as String,
+                  "checked": false,
+                },
+              );
+        }),
+      );
+
+      await pb
+          .collection("containers")
+          .update(
+            widget.containerItemModel.containerModel.id,
+            body: {"items+": models.map((item) => item.id).toList()},
+          );
+    }
   }
 
   void initButtons() {
