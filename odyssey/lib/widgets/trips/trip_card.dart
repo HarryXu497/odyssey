@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
 import 'package:odyssey/routes/route_names.dart';
 import 'package:odyssey/widgets/trips/container_preview_card.dart';
-import 'package:odyssey/widgets/trips/trip_sub_card.dart';
+import 'package:odyssey/widgets/sub_card.dart';
 
 class TripCard extends StatelessWidget {
   final TripContainerItemModel tripContainerItemModel;
@@ -80,17 +80,22 @@ class TripCard extends StatelessWidget {
               tripContainerItemModel
                       .containerItemModels
                       .isEmpty
-                  ? TripSubCard(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                  ? SubCard(
+                    color:
+                        Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
                     child: Center(
                       child: Text(
                         "no containers yet",
-                        style:
-                            Theme.of(
-                              context,
-                            ).textTheme.titleSmall!.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleSmall!.copyWith(
+                          color:
+                              Theme.of(
+                                context,
+                              ).colorScheme.secondary,
+                        ),
                       ),
                     ),
                   )

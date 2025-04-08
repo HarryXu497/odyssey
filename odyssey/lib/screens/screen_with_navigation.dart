@@ -47,7 +47,7 @@ class ScreenWithNavigation extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: AppBottomNavigationBar(),
     );
   }

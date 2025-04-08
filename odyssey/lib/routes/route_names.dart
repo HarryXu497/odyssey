@@ -24,6 +24,7 @@ String computeLocality(GeocodingResult res) {
 class RouteNames {
   static const String homeScreen = "/home";
   static const String tripsScreen = "/home/trips";
+  static const String travelScreen = "/home/travel";
   static const String profileScreen = "/home/profile";
   static const String newTripScreen = "/home/trips/new";
   static const String locationPickerScreen =
@@ -32,6 +33,7 @@ class RouteNames {
   // Since container ID's are unqiue we can get away with only 1 route param
   static const String containerScreen =
       "/home/trip/{trip_id}/container/{container_id}";
+
 
   static Route<dynamic> generateRoutes(
     RouteSettings settings,
@@ -59,7 +61,7 @@ class RouteNames {
             return TripScreen(tripId: id);
           },
         );
-      
+
       case RouteNames.containerScreen:
         return MaterialPageRoute(
           settings: settings,
@@ -70,11 +72,18 @@ class RouteNames {
           },
         );
 
-      case RouteNames.profileScreen:
+      case RouteNames.travelScreen:
         return MaterialPageRoute(
           settings: settings,
           builder:
               (_) => const HomeScreen(startScreenIndex: 1),
+        );
+
+      case RouteNames.profileScreen:
+        return MaterialPageRoute(
+          settings: settings,
+          builder:
+              (_) => const HomeScreen(startScreenIndex: 2),
         );
 
       case RouteNames.newTripScreen:

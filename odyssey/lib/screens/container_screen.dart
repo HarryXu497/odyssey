@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:odyssey/models/containers/container_item_model.dart';
 import 'package:odyssey/models/items/item_model.dart';
 import 'package:odyssey/pocketbase.dart';
@@ -48,10 +49,8 @@ class _ContainerScreenState extends State<ContainerScreen> {
     await pb
         .collection("containers")
         .subscribe('*', _listener);
-    
-    await pb
-        .collection("items")
-        .subscribe('*', _listener);
+
+    await pb.collection("items").subscribe('*', _listener);
   }
 
   void disposeListener() async {
@@ -101,20 +100,79 @@ class _ContainerScreenState extends State<ContainerScreen> {
   }
 }
 
-class ContainerScreenBody extends StatelessWidget {
+class ContainerScreenBody extends StatefulWidget {
   final ContainerItemModel containerItemModel;
-  const ContainerScreenBody({
+
+  ContainerScreenBody({
     super.key,
     required this.containerItemModel,
   });
+
+  @override
+  State<ContainerScreenBody> createState() =>
+      ContainerScreenBodyState();
+}
+
+class ContainerScreenBodyState
+    extends State<ContainerScreenBody> {
+  Future _takePhoto(BuildContext context) async {
+    bool? isCamera = await showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text("Camera"),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text("gallery "),
+                ),
+              ],
+            ),
+          ),
+    );
+  }
+
+  void initButtons() {
+    final List<Widget> listTileButtons = [
+      ListTileButton(text: "add more", onTap: () {}),
+      ListTileButton(
+        text: "recommend with ai",
+        onTap: () {},
+      ),
+      ListTileButton(
+        text: "take a photo",
+        onTap: () async => await _takePhoto,
+      ),
+    ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    initButtons();
+  }
+
+  List<Widget>? listTileButtons;
 
   void Function(bool?) _onItemChecked(ItemModel itemModel) {
     return (newValue) async {
       await pb
           .collection("items")
-          .update(itemModel.id, body: {
-            "checked": newValue ?? false,
-          });
+          .update(
+            itemModel.id,
+            body: {"checked": newValue ?? false},
+          );
     };
   }
 
@@ -125,18 +183,83 @@ class ContainerScreenBody extends StatelessWidget {
         horizontal: 12.0,
         vertical: 8.0,
       ),
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          final item = containerItemModel.itemModels[index];
+      child: Column(
+        children: [
+          ListView.separated(
+            shrinkWrap: true,
+            separatorBuilder:
+                (_, _) => HorizontalLineSeparator(),
+            itemBuilder: (context, index) {
+              final item =
+                  widget
+                      .containerItemModel
+                      .itemModels[index];
 
-          return CheckboxListTile(
-            value: item.checked,
-            onChanged: _onItemChecked(item),
-            title: Text(item.name),
-          );
-        },
-        itemCount: containerItemModel.itemModels.length,
+              return CheckboxListTile(
+                value: item.checked,
+                onChanged: _onItemChecked(item),
+                title: Text(
+                  item.name.toLowerCase(),
+                  style:
+                      Theme.of(
+                        context,
+                      ).textTheme.titleMedium,
+                ),
+              );
+            },
+            itemCount:
+                widget.containerItemModel.itemModels.length,
+          ),
+          HorizontalLineSeparator(),
+          ListView.separated(
+            shrinkWrap: true,
+            itemBuilder:
+                (context, index) => listTileButtons![index],
+            separatorBuilder:
+                (_, _) => HorizontalLineSeparator(),
+            itemCount: listTileButtons!.length,
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class ListTileButton extends StatelessWidget {
+  final void Function() onTap;
+  final String text;
+
+  const ListTileButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      title: Text(
+        text,
+        style: Theme.of(
+          context,
+        ).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ),
+    );
+  }
+}
+
+class HorizontalLineSeparator extends StatelessWidget {
+  const HorizontalLineSeparator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 1.0,
+      color: Theme.of(context).colorScheme.primaryContainer,
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:odyssey/models/containers/container_item_model.dart';
-import 'package:odyssey/widgets/trips/trip_sub_card.dart';
+import 'package:odyssey/widgets/sub_card.dart';
 
 class ContainerPreviewCard extends StatelessWidget {
   final ContainerItemModel containerItemModel;
@@ -14,7 +14,7 @@ class ContainerPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TripSubCard(
+    return SubCard(
       child: Center(
         child: Text(
           containerItemModel.containerModel.name,

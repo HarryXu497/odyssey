@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:odyssey/routes/route_names.dart';
 import 'package:odyssey/screens/profile_screen.dart';
+import 'package:odyssey/screens/travel_screen.dart';
 import 'package:odyssey/screens/trips_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,11 +15,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _appBars = [
     TripsScreenAppBar(),
+    TravelScreenAppBar(),
     ProfileScreenAppBar(),
   ];
 
   static const List<Widget> _screens = [
     TripsScreen(),
+    TravelScreen(),
     ProfileScreen(),
   ];
 
@@ -62,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor:
             Theme.of(context).colorScheme.primary,
@@ -74,6 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.card_travel),
             label: "TRIPS",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.airline_stops),
+            label: "TRAVEL",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
