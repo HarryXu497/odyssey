@@ -111,7 +111,7 @@ async def recommend(body: RecommendationData):
 
     # Turn it into a real Python list
     recommended_items_list = [
-        item.strip() for item in raw.split("'") if item.strip()
+        item.strip() for item in raw.split(",") if item.strip()
     ]
 
     # FastAPI will serialize this to JSON automatically
