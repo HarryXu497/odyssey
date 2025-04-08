@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:open_meteo/open_meteo.dart';
 import 'package:weather_icons/weather_icons.dart';
 

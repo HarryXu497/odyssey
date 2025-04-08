@@ -3,6 +3,7 @@ import 'package:map_location_picker/map_location_picker.dart';
 import 'package:odyssey/models/questions/location_question_model.dart';
 import 'package:odyssey/models/questions/text_question_model.dart';
 import 'package:odyssey/pocketbase.dart';
+import 'package:odyssey/screens/container_list_screen.dart';
 import 'package:odyssey/screens/container_screen.dart';
 import 'package:odyssey/screens/home_screen.dart';
 import 'package:odyssey/screens/questions_screen.dart';
@@ -33,6 +34,9 @@ class RouteNames {
   // Since container ID's are unqiue we can get away with only 1 route param
   static const String containerScreen =
       "/home/trip/{trip_id}/container/{container_id}";
+
+  static const String containerListScreen =
+      "/home/travel/{trip_id}";
 
 
   static Route<dynamic> generateRoutes(
@@ -77,6 +81,16 @@ class RouteNames {
           settings: settings,
           builder:
               (_) => const HomeScreen(startScreenIndex: 1),
+        );
+
+      case RouteNames.containerListScreen:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            final id = settings.arguments as String;
+
+            return ContainerListScreen(tripId: id);
+          },
         );
 
       case RouteNames.profileScreen:

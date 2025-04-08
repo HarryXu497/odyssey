@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
 import 'package:odyssey/pocketbase.dart';
@@ -16,15 +15,17 @@ class _TripsScreenState extends State<TripsScreen> {
 
   Future _getTrips() async {
     final rawData = await pb
-      .collection("trips")
-      .getFullList(expand: "containers,containers.items");
+        .collection("trips")
+        .getFullList(expand: "containers,containers.items");
 
-    final trips = rawData.map(TripContainerItemModel.fromExpandedRecord).toList();
+    final trips =
+        rawData
+            .map(TripContainerItemModel.fromExpandedRecord)
+            .toList();
 
     setState(() {
       _trips = trips;
     });
-
   }
 
   void initTrips() async {
@@ -43,6 +44,19 @@ class _TripsScreenState extends State<TripsScreen> {
         .subscribe("*", (_) => _getTrips());
   }
 
+  void disposeListeners() async {
+    await pb.collection("trips").unsubscribe("*");
+    await pb.collection("containers").unsubscribe("*");
+    await pb.collection("items").unsubscribe("*");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    disposeListeners();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +71,19 @@ class _TripsScreenState extends State<TripsScreen> {
         : ListView.separated(
           padding: EdgeInsets.all(8.0),
           itemBuilder: (context, index) {
-            return TripCard(tripContainerItemModel: _trips![index]);
+            final trip = _trips![index];
+            return Dismissible(
+              key: Key(trip.tripModel.id),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) async {
+                await pb
+                    .collection("trips")
+                    .delete(trip.tripModel.id);
+              },
+              child: TripCard(
+                tripContainerItemModel: trip,
+              ),
+            );
           },
           separatorBuilder:
               (_, _) => SizedBox(height: 12.0),

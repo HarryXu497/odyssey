@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
+import 'package:odyssey/routes/route_names.dart';
 
 class TripCard extends StatelessWidget {
   final TripContainerItemModel tripContainerItemModel;
@@ -19,6 +20,12 @@ class TripCard extends StatelessWidget {
       shadowColor: Theme.of(context).colorScheme.shadow,
       elevation: 4.0,
       child: InkWell(
+        onTap: () async {
+          await Navigator.of(context).pushNamed(
+            RouteNames.containerListScreen,
+            arguments: tripContainerItemModel.tripModel.id,
+          );
+        },
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -29,20 +36,45 @@ class TripCard extends StatelessWidget {
                 style:
                     Theme.of(context).textTheme.titleSmall,
               ),
-              /*
-              ContainerPreview(
-                items: containerItemModel.itemModels
-                    .sublist(
-                      0,
-                      min(
-                        kPreviewCount,
-                        containerItemModel
-                            .itemModels
-                            .length,
-                      ),
+              Row(
+                children: [
+                  Text(
+                    tripContainerItemModel
+                        .tripModel
+                        .startName
+                        .toLowerCase(),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.copyWith(
+                      color:
+                          Theme.of(
+                            context,
+                          ).colorScheme.primaryContainer,
                     ),
+                  ),
+                  SizedBox(width: 8.0),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    color:
+                        Theme.of(
+                          context,
+                        ).colorScheme.primaryContainer,
+                  ),
+                  SizedBox(width: 8.0),
+                  Text(
+                    tripContainerItemModel.tripModel.endName
+                        .toLowerCase(),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.copyWith(
+                      color:
+                          Theme.of(
+                            context,
+                          ).colorScheme.primaryContainer,
+                    ),
+                  ),
+                ],
               ),
-              */
             ],
           ),
         ),

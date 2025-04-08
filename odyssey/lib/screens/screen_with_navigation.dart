@@ -34,6 +34,8 @@ class ScreenWithNavigation extends StatelessWidget {
                   )(route) ||
                   ModalRoute.withName(
                     RouteNames.tripsScreen,
+                  )(route) || ModalRoute.withName(
+                    RouteNames.travelScreen,
                   )(route));
             },
           );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:odyssey/models/containers/container_item_model.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
@@ -19,7 +18,8 @@ class ContainerListScreen extends StatefulWidget {
       _ContainerListScreenState();
 }
 
-class _ContainerListScreenState extends State<ContainerListScreen> {
+class _ContainerListScreenState
+    extends State<ContainerListScreen> {
   TripContainerItemModel? _tripContainerItemModel;
 
   Future<RecordModel> _getRawTripData() async {
@@ -108,7 +108,8 @@ class _ContainerListScreenState extends State<ContainerListScreen> {
                 child: CircularProgressIndicator(),
               )
               : ContainerListScreenBody(
-                tripContainerItemModel: _tripContainerItemModel!,
+                tripContainerItemModel:
+                    _tripContainerItemModel!,
               ),
     );
   }
@@ -129,15 +130,16 @@ class ContainerListScreenBody extends StatefulWidget {
 
 class ContainerListScreenBodyState
     extends State<ContainerListScreenBody> {
-
-  void Function(bool?) _onContainerChecked(ContainerItemModel containerItemModel) {
+  void Function(bool?) _onContainerChecked(
+    ContainerItemModel containerItemModel,
+  ) {
     return (newValue) async {
       await pb
           .collection("containers")
           .update(
             containerItemModel.containerModel.id,
             body: {"checked": newValue ?? false},
-        );
+          );
     };
   }
 
@@ -148,35 +150,55 @@ class ContainerListScreenBodyState
         horizontal: 12.0,
         vertical: 8.0,
       ),
-      child: Column(
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            separatorBuilder:
-                (_, _) => HorizontalLineSeparator(),
-            itemBuilder: (context, index) {
-              final container =
-                  widget
-                      .tripContainerItemModel
-                      .containerItemModels[index];
-
-              return CheckboxListTile(
-                value: container.containerModel.checked,
-                onChanged: _onContainerChecked(container),
-                title: Text(
-                  container.containerModel.name.toLowerCase(),
-                  style:
-                      Theme.of(
-                        context,
-                      ).textTheme.titleMedium,
+      child:
+          widget
+                  .tripContainerItemModel
+                  .containerItemModels
+                  .isEmpty
+              ? Center(
+                child: Text(
+                  "no containers",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium!.copyWith(
+                    color:
+                        Theme.of(
+                          context,
+                        ).colorScheme.secondary,
+                  ),
                 ),
-              );
-            },
-            itemCount:
-                widget.tripContainerItemModel.containerItemModels.length,
-          ),
-        ],
-      ),
+              )
+              : ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder:
+                    (_, _) => HorizontalLineSeparator(),
+                itemBuilder: (context, index) {
+                  final container =
+                      widget
+                          .tripContainerItemModel
+                          .containerItemModels[index];
+
+                  return CheckboxListTile(
+                    value: container.containerModel.checked,
+                    onChanged: _onContainerChecked(
+                      container,
+                    ),
+                    title: Text(
+                      container.containerModel.name
+                          .toLowerCase(),
+                      style:
+                          Theme.of(
+                            context,
+                          ).textTheme.titleMedium,
+                    ),
+                  );
+                },
+                itemCount:
+                    widget
+                        .tripContainerItemModel
+                        .containerItemModels
+                        .length,
+              ),
     );
   }
 }

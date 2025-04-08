@@ -8,7 +8,7 @@ class AppBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: Theme.of(context).colorScheme.primary,
-      selectedItemColor: Theme.of(context).colorScheme.secondary,
+      selectedItemColor: Theme.of(context).colorScheme.onPrimary,
       unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(icon: Icon(Icons.card_travel), label: "TRIPS"),
@@ -25,7 +25,7 @@ class AppBottomNavigationBar extends StatelessWidget {
         if (value == 1) {
           Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil(RouteNames.profileScreen, (route) => false);
+          ).pushNamedAndRemoveUntil(RouteNames.travelScreen, (route) => false);
         }
  
         if (value == 2) {

@@ -98,6 +98,19 @@ class _TripScreenState extends State<TripScreen> {
     initModel();
   }
 
+  void disposeListeners() async {
+    await pb.collection("trips").unsubscribe("*");
+    await pb.collection("containers").unsubscribe("*");
+    await pb.collection("items").unsubscribe("*");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    disposeListeners();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenWithNavigation(
@@ -194,8 +207,8 @@ class TripScreenBody extends StatelessWidget {
                         .collection("trips")
                         .update(
                           tripContainerItemModel
-                            .tripModel
-                            .id,
+                              .tripModel
+                              .id,
                           body: {
                             "containers+": [container.id],
                           },
@@ -232,6 +245,13 @@ class TripScreenBody extends StatelessWidget {
                         tripContainerItemModel
                             .containerItemModels[index];
                     return Dismissible(
+                      direction:
+                          DismissDirection.endToStart,
+                      onDismissed: (direction) async {
+                        await pb
+                            .collection("containers")
+                            .delete(item.containerModel.id);
+                      },
                       key: Key(item.containerModel.id),
                       child: ContainerCard(
                         containerItemModel: item,

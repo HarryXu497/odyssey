@@ -32,7 +32,7 @@ class _TravelScreenState extends State<TravelScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     initTrips();
   }
 
@@ -65,9 +65,6 @@ class _TravelScreenState extends State<TravelScreen> {
     disposeListeners();
   }
 
-  // build
-
-  //e
   @override
   Widget build(BuildContext context) {
     if (_trips == null) {
@@ -94,11 +91,8 @@ class _TravelScreenState extends State<TravelScreen> {
                   (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final item = _trips![index];
-                return Dismissible(
-                  key: Key(item.tripModel.name),
-                  child: TripCard(
-                    tripContainerItemModel: item,
-                  ),
+                return TripCard(
+                  tripContainerItemModel: item,
                 );
               },
             ),
