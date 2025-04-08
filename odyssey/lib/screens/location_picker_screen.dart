@@ -16,6 +16,7 @@ class LocationPickerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenWithNavigation(
+      startingIndex: 0,
       appBar: AppBar(
         title: Text(
           "PICK A PLACE",

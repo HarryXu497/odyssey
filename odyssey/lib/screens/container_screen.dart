@@ -12,12 +12,18 @@ import 'package:odyssey/widgets/buttons/styled_button.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ContainerScreen extends StatefulWidget {
   final String containerId;
+  final String weatherData;
+  final String locationData;
+
   const ContainerScreen({
     super.key,
     required this.containerId,
+    required this.weatherData,
+    required this.locationData,
   });
 
   @override
@@ -81,6 +87,7 @@ class _ContainerScreenState extends State<ContainerScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenWithNavigation(
+      startingIndex: 1,
       appBar: AppBar(
         title: Text(
           _containerItemModel == null
@@ -102,6 +109,8 @@ class _ContainerScreenState extends State<ContainerScreen> {
               )
               : ContainerScreenBody(
                 containerItemModel: _containerItemModel!,
+                weatherData: widget.weatherData,
+                locationData: widget.locationData,
               ),
     );
   }
@@ -109,10 +118,14 @@ class _ContainerScreenState extends State<ContainerScreen> {
 
 class ContainerScreenBody extends StatefulWidget {
   final ContainerItemModel containerItemModel;
+  final String weatherData;
+  final String locationData;
 
   const ContainerScreenBody({
     super.key,
     required this.containerItemModel,
+    required this.weatherData,
+    required this.locationData,
   });
 
   @override
@@ -187,6 +200,77 @@ class ContainerScreenBodyState
     }
   }
 
+  Future _textRecommend() async {
+    final uri = Uri.parse(RemoteUrls.textServerUrl);
+
+    SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    final sharedPrefMap = {};
+
+    if (sharedPreferences.containsKey("weight")) {
+      sharedPrefMap["weight"] = sharedPreferences.get(
+        "weight",
+      );
+    }
+
+    if (sharedPreferences.containsKey("outdoors")) {
+      sharedPrefMap["outdoors"] = sharedPreferences.get(
+        "outdoors",
+      );
+    }
+
+    if (sharedPreferences.containsKey("snacker")) {
+      sharedPrefMap["snacker"] = sharedPreferences.get(
+        "snacker",
+      );
+    }
+
+    final response = await http.post(
+      uri,
+      body: json.encode({
+        "container_name":
+            widget.containerItemModel.containerModel.name,
+        "items":
+            widget.containerItemModel.itemModels
+                .map((item) => item.name)
+                .toList(),
+        "weather_data": widget.weatherData,
+        "location_data": widget.locationData,
+        "user_preferences": json.encode(sharedPrefMap),
+      }),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    final responseData = json.decode(response.body);
+
+    final responseItems =
+        responseData["recommended_items"] as List<dynamic>;
+
+    final models = await Future.wait(
+      responseItems.map((item) async {
+        return pb
+            .collection("items")
+            .create(
+              body: {
+                "name": item as String,
+                "checked": false,
+              },
+            );
+      }),
+    );
+
+    await pb
+        .collection("containers")
+        .update(
+          widget.containerItemModel.containerModel.id,
+          body: {
+            "items+":
+                models.map((item) => item.id).toList(),
+          },
+        );
+  }
+
   void initButtons() {
     listTileButtons = [
       ListTileButton(
@@ -222,7 +306,7 @@ class ContainerScreenBodyState
       ),
       ListTileButton(
         text: "recommend with ai",
-        onTap: () {},
+        onTap: () async => await _textRecommend(),
       ),
       ListTileButton(
         text: "take a photo",
@@ -258,44 +342,36 @@ class ContainerScreenBodyState
         horizontal: 12.0,
         vertical: 8.0,
       ),
-      child: Column(
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            separatorBuilder:
-                (_, _) => HorizontalLineSeparator(),
-            itemBuilder: (context, index) {
-              final item =
-                  widget
-                      .containerItemModel
-                      .itemModels[index];
+      child: ListView.separated(
+        shrinkWrap: true,
+        separatorBuilder:
+            (_, _) => HorizontalLineSeparator(),
+        itemBuilder: (context, index) {
+          if (index <
+              widget.containerItemModel.itemModels.length) {
+            final item =
+                widget.containerItemModel.itemModels[index];
 
-              return CheckboxListTile(
-                value: item.checked,
-                onChanged: _onItemChecked(item),
-                title: Text(
-                  item.name.toLowerCase(),
-                  style:
-                      Theme.of(
-                        context,
-                      ).textTheme.titleMedium,
-                ),
-              );
-            },
-            itemCount:
-                widget.containerItemModel.itemModels.length,
-          ),
-          if (widget.containerItemModel.itemModels.isNotEmpty)
-            HorizontalLineSeparator(),
-          ListView.separated(
-            shrinkWrap: true,
-            itemBuilder:
-                (context, index) => listTileButtons![index],
-            separatorBuilder:
-                (_, _) => HorizontalLineSeparator(),
-            itemCount: listTileButtons!.length,
-          ),
-        ],
+            return CheckboxListTile(
+              value: item.checked,
+              onChanged: _onItemChecked(item),
+              title: Text(
+                item.name.toLowerCase(),
+                style:
+                    Theme.of(context).textTheme.titleMedium,
+              ),
+            );
+          } else {
+            return listTileButtons![index -
+                widget
+                    .containerItemModel
+                    .itemModels
+                    .length];
+          }
+        },
+        itemCount:
+            widget.containerItemModel.itemModels.length +
+            listTileButtons!.length,
       ),
     );
   }

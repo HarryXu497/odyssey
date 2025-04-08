@@ -4,12 +4,14 @@ import 'package:odyssey/widgets/app_bottom_navigation_bar.dart';
 
 class ScreenWithNavigation extends StatelessWidget {
   final PreferredSizeWidget appBar;
+  final int startingIndex;
   final Widget body;
 
   const ScreenWithNavigation({
     super.key,
     required this.appBar,
     required this.body,
+    required this.startingIndex,
   });
 
   @override
@@ -17,7 +19,8 @@ class ScreenWithNavigation extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: body,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor:
+          Theme.of(context).colorScheme.surface,
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         onPressed: () async {
@@ -34,7 +37,8 @@ class ScreenWithNavigation extends StatelessWidget {
                   )(route) ||
                   ModalRoute.withName(
                     RouteNames.tripsScreen,
-                  )(route) || ModalRoute.withName(
+                  )(route) ||
+                  ModalRoute.withName(
                     RouteNames.travelScreen,
                   )(route));
             },
@@ -50,7 +54,9 @@ class ScreenWithNavigation extends StatelessWidget {
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.endFloat,
-      bottomNavigationBar: AppBottomNavigationBar(),
+      bottomNavigationBar: AppBottomNavigationBar(
+        currentIndex: startingIndex,
+      ),
     );
   }
 }

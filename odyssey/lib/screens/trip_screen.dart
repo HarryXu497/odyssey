@@ -114,6 +114,7 @@ class _TripScreenState extends State<TripScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenWithNavigation(
+      startingIndex: 0,
       appBar: AppBar(
         title: Text(
           _tripContainerItemModel == null
@@ -255,6 +256,8 @@ class TripScreenBody extends StatelessWidget {
                       key: Key(item.containerModel.id),
                       child: ContainerCard(
                         containerItemModel: item,
+                        weather: endWeatherData.generateWeatherDescription().$1,
+                        location: tripContainerItemModel.tripModel.endName,
                       ),
                     );
                   },

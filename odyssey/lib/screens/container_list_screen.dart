@@ -88,6 +88,7 @@ class _ContainerListScreenState
   @override
   Widget build(BuildContext context) {
     return ScreenWithNavigation(
+      startingIndex: 1,
       appBar: AppBar(
         title: Text(
           _tripContainerItemModel == null

@@ -7,12 +7,16 @@ import 'package:odyssey/widgets/containers/container_preview.dart';
 
 class ContainerCard extends StatelessWidget {
   final ContainerItemModel containerItemModel;
+  final String weather;
+  final String location;
 
   // Max number of list tiles to show in a preview card
   static const kPreviewCount = 4;
 
   const ContainerCard({
     super.key,
+    required this.weather,
+    required this.location,
     required this.containerItemModel,
   });
 
@@ -26,7 +30,11 @@ class ContainerCard extends StatelessWidget {
         onTap: () async {
           await Navigator.of(context).pushNamed(
             RouteNames.containerScreen,
-            arguments: containerItemModel.containerModel.id,
+            arguments: [
+              containerItemModel.containerModel.id,
+              weather,
+              location,
+            ],
           );
         },
         child: Padding(
@@ -52,7 +60,6 @@ class ContainerCard extends StatelessWidget {
                         ),
                       ),
                 ),
-                
             ],
           ),
         ),

@@ -5,4 +5,7 @@ class RemoteUrls {
 
   static const String photoServerUrl =
       "$serverUrl/get-items-from-image/";
+
+  static const String textServerUrl =
+      "$serverUrl/recommend/";
 }

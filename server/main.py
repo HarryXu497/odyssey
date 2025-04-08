@@ -9,11 +9,11 @@ from pydantic import BaseModel
 import pathlib
 from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 from dotenv import load_dotenv
 
 load_dotenv()  # This will load variables from .env file into the environment
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = FastAPI()
 

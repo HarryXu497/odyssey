@@ -9,11 +9,13 @@ import 'package:odyssey/widgets/questions/text_question.dart';
 class QuestionsScreen extends StatefulWidget {
   final List<QuestionModel> questions;
   final void Function(List<dynamic>) onDone;
+  final int startingIndex;
 
   const QuestionsScreen({
     super.key,
     required this.questions,
     required this.onDone,
+    required this.startingIndex,
   });
 
   @override
@@ -59,6 +61,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     }
 
     return ScreenWithNavigation(
+      startingIndex: widget.startingIndex,
       appBar: AppBar(
         title: Text(
           "NEW TRIP",

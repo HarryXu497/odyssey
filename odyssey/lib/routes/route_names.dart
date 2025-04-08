@@ -31,13 +31,12 @@ class RouteNames {
   static const String locationPickerScreen =
       "/pick-location";
   static const String tripScreen = "/home/trips/{trip_id}";
-  // Since container ID's are unqiue we can get away with only 1 route param
+  // Since container ID's are unique we can get away with only 1 route param
   static const String containerScreen =
       "/home/trip/{trip_id}/container/{container_id}";
 
   static const String containerListScreen =
       "/home/travel/{trip_id}";
-
 
   static Route<dynamic> generateRoutes(
     RouteSettings settings,
@@ -70,9 +69,12 @@ class RouteNames {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) {
-            final id = settings.arguments as String;
+            final data = settings.arguments as List<String>;
+            final id = data[0];
+            final weatherData = data[1];
+            final locationData = data[1];
 
-            return ContainerScreen(containerId: id);
+            return ContainerScreen(containerId: id, weatherData: weatherData, locationData: locationData);
           },
         );
 
@@ -105,6 +107,7 @@ class RouteNames {
           settings: settings,
           builder:
               (context) => QuestionsScreen(
+                startingIndex: 0,
                 questions: [
                   TextQuestionModel(
                     question:
