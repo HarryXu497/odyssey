@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
 import 'package:odyssey/pocketbase.dart';
 
+import 'package:odyssey/widgets/containers/trip_card.dart';
+
 class TravelScreen extends StatefulWidget {
   const TravelScreen({super.key});
 
@@ -25,6 +27,13 @@ class _TravelScreenState extends State<TravelScreen> {
 
   }
 
+    @override
+  void initState() {
+    super.initState();
+    initTrips();
+  }
+
+
   void initTrips() async {
     await _getTrips();
 
@@ -41,9 +50,49 @@ class _TravelScreenState extends State<TravelScreen> {
         .subscribe("*", (_) => _getTrips());
   }
 
+  // build 
+
+
+
+
+  //e
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    if (_trips == null) {
+    return const Center(child: CircularProgressIndicator());
+    }
+    else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+          vertical: 8.0,
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+            ),
+            SizedBox(height: 8.0),
+            ListView.separated(
+              shrinkWrap: true,
+              itemCount: _trips!.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final item = _trips![index];
+                return Dismissible(
+                key: Key(item.tripModel.name),
+                child: TripCard(
+                  tripContainerItemModel: item,
+                ),
+              );
+              },
+            ),
+
+          ],
+        ),
+      );
+    }
   }
 }
 
