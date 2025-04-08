@@ -15,7 +15,9 @@
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		78F67D942DA55E5200C08A7F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F67D932DA55E5200C08A7F /* WidgetKit.framework */; };
 		78F67D962DA55E5200C08A7F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F67D952DA55E5200C08A7F /* SwiftUI.framework */; };
-		78F67DA72DA55E5300C08A7F /* TravelModeIslandExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78F67D922DA55E5200C08A7F /* TravelModeIslandExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		78F67DB32DA55EE800C08A7F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F67D932DA55E5200C08A7F /* WidgetKit.framework */; };
+		78F67DB42DA55EE800C08A7F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F67D952DA55E5200C08A7F /* SwiftUI.framework */; };
+		78F67DC52DA55EE900C08A7F /* TravelModeIslandExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 78F67DB22DA55EE800C08A7F /* TravelModeIslandExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -36,6 +38,13 @@
 			remoteGlobalIDString = 78F67D912DA55E5200C08A7F;
 			remoteInfo = TravelModeIslandExtension;
 		};
+		78F67DC32DA55EE900C08A7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78F67DB12DA55EE800C08A7F;
+			remoteInfo = TravelModeIslandExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,7 +54,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				78F67DA72DA55E5300C08A7F /* TravelModeIslandExtension.appex in Embed Foundation Extensions */,
+				78F67DC52DA55EE900C08A7F /* TravelModeIslandExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,9 +82,11 @@
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78602487882C46F66BE8A0FE /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		78F67D922DA55E5200C08A7F /* TravelModeIslandExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TravelModeIslandExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F67D932DA55E5200C08A7F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		78F67D952DA55E5200C08A7F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		78F67DB22DA55EE800C08A7F /* TravelModeIslandExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TravelModeIslandExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		78F67DCB2DA55F4C00C08A7F /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		78F67DCC2DA55FE600C08A7F /* TravelModeIslandExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TravelModeIslandExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		877A8C0124E499B6EA5864BE /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
@@ -112,6 +123,15 @@
 			files = (
 				78F67D962DA55E5200C08A7F /* SwiftUI.framework in Frameworks */,
 				78F67D942DA55E5200C08A7F /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78F67DAF2DA55EE800C08A7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78F67DB42DA55EE800C08A7F /* SwiftUI.framework in Frameworks */,
+				78F67DB32DA55EE800C08A7F /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,7 +204,8 @@
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
 				331C8081294A63A400263BE5 /* RunnerTests.xctest */,
-				78F67D922DA55E5200C08A7F /* TravelModeIslandExtension.appex */,
+				78F67DB22DA55EE800C08A7F /* TravelModeIslandExtension.appex */,
+				78F67DCC2DA55FE600C08A7F /* TravelModeIslandExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -192,6 +213,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				78F67DCB2DA55F4C00C08A7F /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -256,7 +278,26 @@
 			packageProductDependencies = (
 			);
 			productName = TravelModeIslandExtension;
-			productReference = 78F67D922DA55E5200C08A7F /* TravelModeIslandExtension.appex */;
+			productReference = 78F67DCC2DA55FE600C08A7F /* TravelModeIslandExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		78F67DB12DA55EE800C08A7F /* TravelModeIslandExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78F67DC72DA55EE900C08A7F /* Build configuration list for PBXNativeTarget "TravelModeIslandExtension" */;
+			buildPhases = (
+				78F67DAE2DA55EE800C08A7F /* Sources */,
+				78F67DAF2DA55EE800C08A7F /* Frameworks */,
+				78F67DB02DA55EE800C08A7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TravelModeIslandExtension;
+			packageProductDependencies = (
+			);
+			productName = TravelModeIslandExtension;
+			productReference = 78F67DB22DA55EE800C08A7F /* TravelModeIslandExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
@@ -278,6 +319,7 @@
 			);
 			dependencies = (
 				78F67DA62DA55E5300C08A7F /* PBXTargetDependency */,
+				78F67DC42DA55EE900C08A7F /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
@@ -302,6 +344,9 @@
 					78F67D912DA55E5200C08A7F = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					78F67DB12DA55EE800C08A7F = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 1100;
@@ -324,6 +369,7 @@
 				97C146ED1CF9000F007C117D /* Runner */,
 				331C8080294A63A400263BE5 /* RunnerTests */,
 				78F67D912DA55E5200C08A7F /* TravelModeIslandExtension */,
+				78F67DB12DA55EE800C08A7F /* TravelModeIslandExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -337,6 +383,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		78F67D902DA55E5200C08A7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78F67DB02DA55EE800C08A7F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -484,6 +537,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		78F67DAE2DA55EE800C08A7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EA1CF9000F007C117D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,6 +565,11 @@
 			isa = PBXTargetDependency;
 			target = 78F67D912DA55E5200C08A7F /* TravelModeIslandExtension */;
 			targetProxy = 78F67DA52DA55E5300C08A7F /* PBXContainerItemProxy */;
+		};
+		78F67DC42DA55EE900C08A7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78F67DB12DA55EE800C08A7F /* TravelModeIslandExtension */;
+			targetProxy = 78F67DC32DA55EE900C08A7F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -586,7 +651,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = CZH6YR5VGN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -766,6 +833,120 @@
 			};
 			name = Profile;
 		};
+		78F67DC82DA55EE900C08A7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TravelModeIsland/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TravelModeIsland;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.odyssey.TravelModeIsland;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		78F67DC92DA55EE900C08A7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TravelModeIsland/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TravelModeIsland;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.odyssey.TravelModeIsland;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		78F67DCA2DA55EE900C08A7F /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TravelModeIsland/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TravelModeIsland;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.odyssey.TravelModeIsland;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Profile;
+		};
 		97C147031CF9000F007C117D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -883,7 +1064,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = CZH6YR5VGN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -906,7 +1089,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = CZH6YR5VGN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -941,6 +1126,16 @@
 				78F67DA92DA55E5300C08A7F /* Debug */,
 				78F67DAA2DA55E5300C08A7F /* Release */,
 				78F67DAB2DA55E5300C08A7F /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78F67DC72DA55EE900C08A7F /* Build configuration list for PBXNativeTarget "TravelModeIslandExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78F67DC82DA55EE900C08A7F /* Debug */,
+				78F67DC92DA55EE900C08A7F /* Release */,
+				78F67DCA2DA55EE900C08A7F /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
