@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:odyssey/models/questions/location_question_model.dart';
 import 'package:odyssey/models/questions/question_model.dart';
 import 'package:odyssey/models/questions/text_question_model.dart';
 import 'package:odyssey/screens/screen_with_navigation.dart';
+import 'package:odyssey/widgets/questions/location_question.dart';
 import 'package:odyssey/widgets/questions/text_question.dart';
 
 class QuestionsScreen extends StatefulWidget {
@@ -24,6 +26,18 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   List<dynamic> values = [];
 
+  void _addItem(dynamic value) {
+    values.add(value);
+
+    setState(() {
+      if (_currentIndex >= widget.questions.length - 1) {
+        widget.onDone(values);
+      } else {
+        _currentIndex++;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentModel = widget.questions[_currentIndex];
@@ -33,13 +47,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     if (currentModel is TextQuestionModel) {
       currentWidget = TextQuestion(
         model: currentModel,
-        onSubmit: (value) {
-          values.add(value);
+        onSubmit: _addItem,
+      );
+    }
 
-          setState(() {
-            _currentIndex++;
-          });
-        },
+    if (currentModel is LocationQuestionModel) {
+      currentWidget = LocationQuestion(
+        model: currentModel,
+        onSubmit: _addItem,
       );
     }
 

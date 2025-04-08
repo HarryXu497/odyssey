@@ -28,32 +28,42 @@ class _TextQuestionState extends State<TextQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          widget.model.question,
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge!.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-            overflow: TextOverflow.ellipsis
+    return IntrinsicWidth(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            widget.model.question,
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+              overflow: TextOverflow.ellipsis
+            ),
           ),
-        ),
-        SizedBox(height: 12.0),
-        TextField(
-          controller: _controller,
-          decoration: InputDecoration(
-            hintText: widget.model.placeholder,
+          SizedBox(height: 12.0),
+          TextField(
+            controller: _controller,
+            style: Theme.of(context).textTheme.titleLarge,
+            decoration: InputDecoration(
+              hintText: widget.model.placeholder,
+              hintStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              fillColor: Theme.of(context).colorScheme.primaryContainer,
+            ),
           ),
-        ),
-        SizedBox(height: 12.0),
-        NextButton(
-          onPressed: () {
-            widget.onSubmit(_controller.text);
-          },
-        ),
-      ],
+          SizedBox(height: 12.0),
+          SizedBox(
+            width: double.infinity,
+            child: NextButton(
+              onPressed: () {
+                widget.onSubmit(_controller.text);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 pb_data
 pb_migrations
 
+*.env
+
 # Miscellaneous
 *.class
 *.log

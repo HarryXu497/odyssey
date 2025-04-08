@@ -17,7 +17,9 @@ class ScreenWithNavigation extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: body,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         onPressed: () async {
           await Navigator.of(
             context,

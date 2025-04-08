@@ -45,7 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Theme.of(context).colorScheme.onPrimary,
       ),
       body: _screens.elementAt(_selectedIndex),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         onPressed: () async {
           await Navigator.of(
             context,

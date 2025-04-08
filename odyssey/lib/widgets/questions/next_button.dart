@@ -9,6 +9,11 @@ class NextButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
+        shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          )
+        ),
         backgroundColor: WidgetStatePropertyAll(
           Theme.of(context).colorScheme.primary,
         ),
@@ -18,7 +23,9 @@ class NextButton extends StatelessWidget {
       ),
       child: Text(
         "Proceed",
-        style: Theme.of(context).textTheme.bodyLarge,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
       ),
     );
   }
