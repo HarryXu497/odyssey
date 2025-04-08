@@ -20,7 +20,7 @@ class ContainerPreview extends StatelessWidget {
             onChanged: null,
             dense: true,
             title: Text(
-              item.name,
+              item.name.toLowerCase(),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           );

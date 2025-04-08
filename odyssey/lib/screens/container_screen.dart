@@ -6,6 +6,7 @@ import 'package:odyssey/models/containers/container_item_model.dart';
 import 'package:odyssey/models/items/item_model.dart';
 import 'package:odyssey/pocketbase.dart';
 import 'package:odyssey/routes/remote_urls.dart';
+import 'package:odyssey/screens/add_item_screen.dart';
 import 'package:odyssey/screens/screen_with_navigation.dart';
 import 'package:odyssey/widgets/buttons/styled_button.dart';
 import 'package:pocketbase/pocketbase.dart';
@@ -178,14 +179,43 @@ class ContainerScreenBodyState
           .collection("containers")
           .update(
             widget.containerItemModel.containerModel.id,
-            body: {"items+": models.map((item) => item.id).toList()},
+            body: {
+              "items+":
+                  models.map((item) => item.id).toList(),
+            },
           );
     }
   }
 
   void initButtons() {
     listTileButtons = [
-      ListTileButton(text: "add more", onTap: () {}),
+      ListTileButton(
+        text: "add more",
+        onTap: () async {
+          final String result = await Navigator.of(
+            context,
+          ).push(
+            MaterialPageRoute(
+              builder: (_) => AddItemScreen(),
+            ),
+          );
+
+          final item = await pb
+              .collection("items")
+              .create(
+                body: {"name": result, "checked": false},
+              );
+
+          await pb
+              .collection("containers")
+              .update(
+                widget.containerItemModel.containerModel.id,
+                body: {
+                  "items+": [item.id],
+                },
+              );
+        },
+      ),
       ListTileButton(
         text: "recommend with ai",
         onTap: () {},

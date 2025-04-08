@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:odyssey/routes/route_names.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
 
 final colorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 34, 56, 67),
@@ -16,9 +16,10 @@ final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,
 );
 
-Future main() async {    
+Future main() async {
+  tz.initializeTimeZones();
   await dotenv.load(fileName: ".env");
-  
+
   runApp(const OdysseyApp());
 }
 
@@ -34,57 +35,69 @@ class OdysseyApp extends StatelessWidget {
       onGenerateRoute: RouteNames.generateRoutes,
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-          builder: (_) => Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            body: Center(
-              child: Text('No route found for ${settings.name}'),
-            ),
-          ),
+          builder:
+              (_) => Scaffold(
+                backgroundColor:
+                    Theme.of(context).colorScheme.surface,
+                body: Center(
+                  child: Text(
+                    'No route found for ${settings.name}',
+                  ),
+                ),
+              ),
         );
       },
       theme: ThemeData().copyWith(
         colorScheme: colorScheme,
-        textTheme: GoogleFonts.josefinSansTextTheme().copyWith(
-          headlineLarge: GoogleFonts.josefinSans().copyWith(
-            fontSize: 32.0,
-            color: colorScheme.onPrimary,
-          ),
-          headlineMedium: GoogleFonts.josefinSans().copyWith(
-            fontSize: 30.0,
-            color: colorScheme.onPrimary,
-          ),
-          headlineSmall: GoogleFonts.josefinSans().copyWith(
-            fontSize: 28.0,
-            color: colorScheme.onPrimary,
-          ),
-          titleLarge: GoogleFonts.josefinSans().copyWith(
-            fontSize: 28.0,
-            color: colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
-          titleMedium: GoogleFonts.josefinSans().copyWith(
-            fontSize: 26.0,
-            color: colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
-          titleSmall: GoogleFonts.josefinSans().copyWith(
-            fontSize: 24.0,
-            color: colorScheme.primary,
-            fontWeight: FontWeight.bold,  
-          ),
-          bodyLarge: GoogleFonts.josefinSans().copyWith(
-            fontSize: 22.0,
-            color: colorScheme.primary,
-          ),
-          bodyMedium: GoogleFonts.josefinSans().copyWith(
-            fontSize: 20.0,
-            color: colorScheme.primary,
-          ),
-          bodySmall: GoogleFonts.josefinSans().copyWith(
-            fontSize: 18.0,
-            color: colorScheme.primary,
-          ),
-        ),
+        textTheme: GoogleFonts.josefinSansTextTheme()
+            .copyWith(
+              headlineLarge: GoogleFonts.josefinSans()
+                  .copyWith(
+                    fontSize: 32.0,
+                    color: colorScheme.onPrimary,
+                  ),
+              headlineMedium: GoogleFonts.josefinSans()
+                  .copyWith(
+                    fontSize: 30.0,
+                    color: colorScheme.onPrimary,
+                  ),
+              headlineSmall: GoogleFonts.josefinSans()
+                  .copyWith(
+                    fontSize: 28.0,
+                    color: colorScheme.onPrimary,
+                  ),
+              titleLarge: GoogleFonts.josefinSans()
+                  .copyWith(
+                    fontSize: 28.0,
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+              titleMedium: GoogleFonts.josefinSans()
+                  .copyWith(
+                    fontSize: 26.0,
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+              titleSmall: GoogleFonts.josefinSans()
+                  .copyWith(
+                    fontSize: 24.0,
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+              bodyLarge: GoogleFonts.josefinSans().copyWith(
+                fontSize: 22.0,
+                color: colorScheme.primary,
+              ),
+              bodyMedium: GoogleFonts.josefinSans()
+                  .copyWith(
+                    fontSize: 20.0,
+                    color: colorScheme.primary,
+                  ),
+              bodySmall: GoogleFonts.josefinSans().copyWith(
+                fontSize: 18.0,
+                color: colorScheme.primary,
+              ),
+            ),
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
+import 'package:odyssey/models/weather/weather_model.dart';
 import 'package:odyssey/pocketbase.dart';
 import 'package:odyssey/screens/screen_with_navigation.dart';
 import 'package:odyssey/widgets/containers/container_card.dart';
+import 'package:pocketbase/pocketbase.dart';
 
 class TripScreen extends StatefulWidget {
   final String tripId;
@@ -15,14 +17,20 @@ class TripScreen extends StatefulWidget {
 
 class _TripScreenState extends State<TripScreen> {
   TripContainerItemModel? _tripContainerItemModel;
+  WeatherData? _startWeatherData;
+  WeatherData? _endWeatherData;
 
-  Future _getTripData() async {
-    final rawData = await pb
+  Future<RecordModel> _getRawTripData() async {
+    return pb
         .collection("trips")
         .getOne(
           widget.tripId,
           expand: "containers,containers.items",
         );
+  }
+
+  Future _getTripData() async {
+    final rawData = await _getRawTripData();
 
     setState(() {
       _tripContainerItemModel =
@@ -33,7 +41,40 @@ class _TripScreenState extends State<TripScreen> {
   }
 
   void initModel() async {
-    await _getTripData();
+    final tripContainerItemModel =
+        TripContainerItemModel.fromExpandedRecord(
+          await _getRawTripData(),
+        );
+
+    final startWeatherData =
+        await WeatherData.fetchWeatherData(
+          tripContainerItemModel
+              .tripModel
+              .startLatLng
+              .latitude,
+          tripContainerItemModel
+              .tripModel
+              .startLatLng
+              .longitude,
+        );
+
+    final endWeatherData =
+        await WeatherData.fetchWeatherData(
+          tripContainerItemModel
+              .tripModel
+              .endLatLng
+              .latitude,
+          tripContainerItemModel
+              .tripModel
+              .endLatLng
+              .longitude,
+        );
+
+    setState(() {
+      _tripContainerItemModel = tripContainerItemModel;
+      _startWeatherData = startWeatherData;
+      _endWeatherData = endWeatherData;
+    });
 
     await pb
         .collection("trips")
