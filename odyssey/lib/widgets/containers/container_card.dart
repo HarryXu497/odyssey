@@ -39,18 +39,19 @@ class ContainerCard extends StatelessWidget {
                 style:
                     Theme.of(context).textTheme.titleSmall,
               ),
-              ContainerPreview(
-                items: containerItemModel.itemModels
-                    .sublist(
-                      0,
-                      min(
-                        kPreviewCount,
-                        containerItemModel
-                            .itemModels
-                            .length,
+              if (containerItemModel.itemModels.isNotEmpty)
+                ContainerPreview(
+                  items: containerItemModel.itemModels
+                      .sublist(
+                        0,
+                        min(
+                          kPreviewCount,
+                          containerItemModel
+                              .itemModels
+                              .length,
+                        ),
                       ),
-                    ),
-              ),
+                ),
             ],
           ),
         ),

@@ -12,27 +12,29 @@ class TravelScreen extends StatefulWidget {
 }
 
 class _TravelScreenState extends State<TravelScreen> {
-    List<TripContainerItemModel>? _trips;
+  List<TripContainerItemModel>? _trips;
 
   Future _getTrips() async {
     final rawData = await pb
-      .collection("trips")
-      .getFullList(expand: "containers,containers.items");
+        .collection("trips")
+        .getFullList(expand: "containers,containers.items");
 
-    final trips = rawData.map(TripContainerItemModel.fromExpandedRecord).toList();
+    final trips =
+        rawData
+            .map(TripContainerItemModel.fromExpandedRecord)
+            .toList();
 
     setState(() {
       _trips = trips;
     });
-
   }
 
-    @override
+  @override
   void initState() {
     super.initState();
+    
     initTrips();
   }
-
 
   void initTrips() async {
     await _getTrips();
@@ -50,18 +52,29 @@ class _TravelScreenState extends State<TravelScreen> {
         .subscribe("*", (_) => _getTrips());
   }
 
-  // build 
+  void disposeListeners() async {
+    await pb.collection("trips").unsubscribe("*");
+    await pb.collection("containers").unsubscribe("*");
+    await pb.collection("items").unsubscribe("*");
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
 
+    disposeListeners();
+  }
 
+  // build
 
   //e
   @override
   Widget build(BuildContext context) {
     if (_trips == null) {
-    return const Center(child: CircularProgressIndicator());
-    }
-    else {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
       return Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 12.0,
@@ -77,18 +90,18 @@ class _TravelScreenState extends State<TravelScreen> {
             ListView.separated(
               shrinkWrap: true,
               itemCount: _trips!.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder:
+                  (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final item = _trips![index];
                 return Dismissible(
-                key: Key(item.tripModel.name),
-                child: TripCard(
-                  tripContainerItemModel: item,
-                ),
-              );
+                  key: Key(item.tripModel.name),
+                  child: TripCard(
+                    tripContainerItemModel: item,
+                  ),
+                );
               },
             ),
-
           ],
         ),
       );
@@ -101,6 +114,9 @@ class TravelScreenAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("TRAVEL", style: Theme.of(context).textTheme.headlineLarge);
+    return Text(
+      "TRAVEL",
+      style: Theme.of(context).textTheme.headlineLarge,
+    );
   }
 }

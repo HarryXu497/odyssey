@@ -1,10 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:odyssey/models/containers/container_item_model.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
-import 'package:odyssey/routes/route_names.dart';
-import 'package:odyssey/widgets/containers/container_preview.dart';
 
 class TripCard extends StatelessWidget {
   final TripContainerItemModel tripContainerItemModel;

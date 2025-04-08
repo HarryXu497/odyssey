@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:odyssey/models/trips/trip_container_item_model.dart';
 import 'package:odyssey/models/weather/weather_model.dart';
 import 'package:odyssey/pocketbase.dart';
+import 'package:odyssey/screens/create_container_screen.dart';
 import 'package:odyssey/screens/screen_with_navigation.dart';
 import 'package:odyssey/widgets/containers/container_card.dart';
+import 'package:odyssey/widgets/weather/weather_card.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 class TripScreen extends StatefulWidget {
@@ -114,23 +116,32 @@ class _TripScreenState extends State<TripScreen> {
             Theme.of(context).colorScheme.onPrimary,
       ),
       body:
-          _tripContainerItemModel == null
+          (_tripContainerItemModel == null ||
+                  _startWeatherData == null ||
+                  _endWeatherData == null)
               ? const Center(
                 child: CircularProgressIndicator(),
               )
               : TripScreenBody(
                 tripContainerItemModel:
                     _tripContainerItemModel!,
+                startWeatherData: _startWeatherData!,
+                endWeatherData: _endWeatherData!,
               ),
     );
   }
 }
 
 class TripScreenBody extends StatelessWidget {
+  final WeatherData startWeatherData;
+  final WeatherData endWeatherData;
   final TripContainerItemModel tripContainerItemModel;
+
   const TripScreenBody({
     super.key,
     required this.tripContainerItemModel,
+    required this.startWeatherData,
+    required this.endWeatherData,
   });
 
   @override
@@ -140,60 +151,148 @@ class TripScreenBody extends StatelessWidget {
         horizontal: 12.0,
         vertical: 8.0,
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "containers",
-                style:
-                    Theme.of(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "containers",
+                  style:
+                      Theme.of(
+                        context,
+                      ).textTheme.displaySmall,
+                ),
+                TextButton(
+                  onPressed: () async {
+                    final String? result =
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder:
+                                (_) =>
+                                    CreateContainerScreen(),
+                          ),
+                        );
+
+                    if (result == null) {
+                      return;
+                    }
+
+                    final container = await pb
+                        .collection("containers")
+                        .create(
+                          body: {
+                            "name": result,
+                            "containers": [],
+                          },
+                        );
+
+                    await pb
+                        .collection("trips")
+                        .update(
+                          tripContainerItemModel
+                            .tripModel
+                            .id,
+                          body: {
+                            "containers+": [container.id],
+                          },
+                        );
+                  },
+                  child: Text(
+                    "add new",
+                    style: Theme.of(
                       context,
-                    ).textTheme.displaySmall,
-              ),
-              TextButton(
-                onPressed: () {
-                  // TODO: new container
-                },
-                child: Text(
-                  "add new",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge!.copyWith(
-                    fontWeight: FontWeight.normal,
-                    color:
-                        Theme.of(
-                          context,
-                        ).colorScheme.secondary,
+                    ).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.normal,
+                      color:
+                          Theme.of(
+                            context,
+                          ).colorScheme.secondary,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.0),
-          ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              final item =
-                  tripContainerItemModel
-                      .containerItemModels[index];
-              return Dismissible(
-                key: Key(item.containerModel.id),
-                child: ContainerCard(
-                  containerItemModel: item,
-                ),
-              );
-            },
-            separatorBuilder:
-                (_, _) => SizedBox(height: 12.0),
-            itemCount:
-                tripContainerItemModel
+              ],
+            ),
+            SizedBox(height: 8.0),
+            tripContainerItemModel
                     .containerItemModels
-                    .length,
+                    .isEmpty
+                ? Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.stretch,
+                  children: [const NoTripCard()],
+                )
+                : ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final item =
+                        tripContainerItemModel
+                            .containerItemModels[index];
+                    return Dismissible(
+                      key: Key(item.containerModel.id),
+                      child: ContainerCard(
+                        containerItemModel: item,
+                      ),
+                    );
+                  },
+                  separatorBuilder:
+                      (_, _) => SizedBox(height: 12.0),
+                  itemCount:
+                      tripContainerItemModel
+                          .containerItemModels
+                          .length,
+                ),
+            SizedBox(height: 16.0),
+            Text(
+              "weather",
+              style:
+                  Theme.of(context).textTheme.displaySmall,
+            ),
+            WeatherCard(
+              location:
+                  tripContainerItemModel
+                      .tripModel
+                      .startName,
+              weatherData: startWeatherData,
+            ),
+            SizedBox(height: 12.0),
+            WeatherCard(
+              location:
+                  tripContainerItemModel.tripModel.endName,
+              weatherData: endWeatherData,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NoTripCard extends StatelessWidget {
+  const NoTripCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.filled(
+      color: Theme.of(context).colorScheme.onPrimary,
+      shadowColor: Theme.of(context).colorScheme.shadow,
+      elevation: 4.0,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Center(
+          child: Text(
+            "no containers yet",
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall!.copyWith(
+              color:
+                  Theme.of(context).colorScheme.secondary,
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

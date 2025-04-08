@@ -148,7 +148,7 @@ class WeatherData {
 
     // Add temperature information
     description +=
-        "The temperature will range from ${temperatureMin.toInt()}°C to ${temperatureMax.toInt()}°C.";
+        " The temperature will range from ${temperatureMin.toInt()}°C to ${temperatureMax.toInt()}°C.";
 
     // Add UV index information
     description +=
@@ -176,7 +176,7 @@ class WeatherData {
           "Unknown precipitation conditions.";
     }
 
-    description += precipitationDescription;
+    description += " $precipitationDescription";
 
     return (description, icon);
   }

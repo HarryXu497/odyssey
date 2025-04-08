@@ -16,6 +16,7 @@ class ContainerItemModel {
       containerModel: ContainerModel(
         id: container.id,
         name: container.getStringValue("name"),
+        checked: container.getBoolValue("checked")
       ),
       itemModels:
           (container

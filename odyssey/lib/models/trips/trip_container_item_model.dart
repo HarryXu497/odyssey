@@ -40,6 +40,7 @@ class TripContainerItemModel {
                   containerModel: ContainerModel(
                     id: container["id"] as String,
                     name: container["name"] as String,
+                    checked: container["checked"] as bool,
                   ),
                   itemModels:
                       (container["expand"]["items"] ?? [])

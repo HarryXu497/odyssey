@@ -192,13 +192,17 @@ class ContainerScreenBodyState
       ListTileButton(
         text: "add more",
         onTap: () async {
-          final String result = await Navigator.of(
+          final String? result = await Navigator.of(
             context,
           ).push(
             MaterialPageRoute(
               builder: (_) => AddItemScreen(),
             ),
           );
+
+          if (result == null) {
+            return;
+          }
 
           final item = await pb
               .collection("items")
@@ -281,7 +285,8 @@ class ContainerScreenBodyState
             itemCount:
                 widget.containerItemModel.itemModels.length,
           ),
-          HorizontalLineSeparator(),
+          if (widget.containerItemModel.itemModels.isNotEmpty)
+            HorizontalLineSeparator(),
           ListView.separated(
             shrinkWrap: true,
             itemBuilder:
