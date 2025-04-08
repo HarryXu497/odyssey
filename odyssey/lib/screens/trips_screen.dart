@@ -14,16 +14,33 @@ class TripsScreen extends StatefulWidget {
 class _TripsScreenState extends State<TripsScreen> {
   List<TripContainerItemModel>? _trips;
 
-  void initTrips() async {
+  Future _getTrips() async {
     final rawData = await pb
-        .collection("trips")
-        .getFullList(expand: "containers,containers.items");
+      .collection("trips")
+      .getFullList(expand: "containers,containers.items");
 
-    final trips = rawData.map(TripContainerItemModel.fromExpandedRecord);
+    final trips = rawData.map(TripContainerItemModel.fromExpandedRecord).toList();
 
     setState(() {
-      _trips = trips.toList();
+      _trips = trips;
     });
+
+  }
+
+  void initTrips() async {
+    await _getTrips();
+
+    await pb
+        .collection("trips")
+        .subscribe("*", (_) => _getTrips());
+
+    await pb
+        .collection("containers")
+        .subscribe("*", (_) => _getTrips());
+
+    await pb
+        .collection("items")
+        .subscribe("*", (_) => _getTrips());
   }
 
   @override

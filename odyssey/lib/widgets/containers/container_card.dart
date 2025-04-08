@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:odyssey/models/containers/container_item_model.dart';
+import 'package:odyssey/routes/route_names.dart';
 import 'package:odyssey/widgets/containers/container_preview.dart';
 
 class ContainerCard extends StatelessWidget {
@@ -17,14 +18,17 @@ class ContainerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        // TODO: container/:id screen
-      },
-      child: Card.filled(
-        color: Theme.of(context).colorScheme.onPrimary,
-        shadowColor: Theme.of(context).colorScheme.shadow,
-        elevation: 4.0,
+    return Card.filled(
+      color: Theme.of(context).colorScheme.onPrimary,
+      shadowColor: Theme.of(context).colorScheme.shadow,
+      elevation: 4.0,
+      child: InkWell(
+        onTap: () async {
+          await Navigator.of(context).pushNamed(
+            RouteNames.containerScreen,
+            arguments: containerItemModel.containerModel.id,
+          );
+        },
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -32,12 +36,20 @@ class ContainerCard extends StatelessWidget {
             children: [
               Text(
                 containerItemModel.containerModel.name,
-                style: Theme.of(context).textTheme.titleSmall,
+                style:
+                    Theme.of(context).textTheme.titleSmall,
               ),
               ContainerPreview(
-                items: containerItemModel.itemModels.sublist(
-                  0, min(kPreviewCount, containerItemModel.itemModels.length),
-                ),
+                items: containerItemModel.itemModels
+                    .sublist(
+                      0,
+                      min(
+                        kPreviewCount,
+                        containerItemModel
+                            .itemModels
+                            .length,
+                      ),
+                    ),
               ),
             ],
           ),
