@@ -93,7 +93,7 @@ async def recommend(body: RecommendationData):
         f"Weather: {body.weather_data}. "
         f"Location: {body.location_data}. "
         f"User preferences: {body.user_preferences}. "
-        "Please give me a |-separated list of 4 NEW travel items "
+        "Please give me a comma-separated list of 4 NEW travel items "
         "that are not already in the container. Make sure they are helpful and useful for our traveler!"
         "Each item can be one word max"
     )
@@ -111,7 +111,7 @@ async def recommend(body: RecommendationData):
 
     # Turn it into a real Python list
     recommended_items_list = [
-        item.strip() for item in raw.split("|") if item.strip()
+        item.strip() for item in raw.split("'") if item.strip()
     ]
 
     # FastAPI will serialize this to JSON automatically
