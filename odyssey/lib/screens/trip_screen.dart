@@ -16,7 +16,7 @@ class TripScreen extends StatefulWidget {
 class _TripScreenState extends State<TripScreen> {
   TripContainerItemModel? _tripContainerItemModel;
 
-  void initModel() async {
+  Future _getTripData() async {
     final rawData = await pb
         .collection("trips")
         .getOne(
@@ -30,6 +30,22 @@ class _TripScreenState extends State<TripScreen> {
             rawData,
           );
     });
+  }
+
+  void initModel() async {
+    await _getTripData();
+
+    await pb
+        .collection("trips")
+        .subscribe("*", (_) => _getTripData());
+
+    await pb
+        .collection("containers")
+        .subscribe("*", (_) => _getTripData());
+
+    await pb
+        .collection("items")
+        .subscribe("*", (_) => _getTripData());
   }
 
   @override
@@ -79,7 +95,10 @@ class TripScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12.0,
+        vertical: 8.0,
+      ),
       child: Column(
         children: [
           Row(
@@ -89,7 +108,9 @@ class TripScreenBody extends StatelessWidget {
               Text(
                 "containers",
                 style:
-                    Theme.of(context).textTheme.displaySmall,
+                    Theme.of(
+                      context,
+                    ).textTheme.displaySmall,
               ),
               TextButton(
                 onPressed: () {
@@ -110,15 +131,26 @@ class TripScreenBody extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8.0,),
+          SizedBox(height: 8.0),
           ListView.separated(
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return ContainerCard(containerItemModel: tripContainerItemModel.containerItemModels[index]);
+              final item =
+                  tripContainerItemModel
+                      .containerItemModels[index];
+              return Dismissible(
+                key: Key(item.containerModel.id),
+                child: ContainerCard(
+                  containerItemModel: item,
+                ),
+              );
             },
             separatorBuilder:
                 (_, _) => SizedBox(height: 12.0),
-            itemCount: tripContainerItemModel.containerItemModels.length,
+            itemCount:
+                tripContainerItemModel
+                    .containerItemModels
+                    .length,
           ),
         ],
       ),

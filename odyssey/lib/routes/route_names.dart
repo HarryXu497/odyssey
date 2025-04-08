@@ -3,6 +3,7 @@ import 'package:map_location_picker/map_location_picker.dart';
 import 'package:odyssey/models/questions/location_question_model.dart';
 import 'package:odyssey/models/questions/text_question_model.dart';
 import 'package:odyssey/pocketbase.dart';
+import 'package:odyssey/screens/container_screen.dart';
 import 'package:odyssey/screens/home_screen.dart';
 import 'package:odyssey/screens/questions_screen.dart';
 import 'package:odyssey/screens/trip_screen.dart';
@@ -56,6 +57,16 @@ class RouteNames {
             final id = settings.arguments as String;
 
             return TripScreen(tripId: id);
+          },
+        );
+      
+      case RouteNames.containerScreen:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            final id = settings.arguments as String;
+
+            return ContainerScreen(containerId: id);
           },
         );
 
