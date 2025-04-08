@@ -4,6 +4,7 @@ import 'package:odyssey/models/containers/container_item_model.dart';
 import 'package:odyssey/models/items/item_model.dart';
 import 'package:odyssey/pocketbase.dart';
 import 'package:odyssey/screens/screen_with_navigation.dart';
+import 'package:odyssey/widgets/buttons/styled_button.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 class ContainerScreen extends StatefulWidget {
@@ -103,7 +104,7 @@ class _ContainerScreenState extends State<ContainerScreen> {
 class ContainerScreenBody extends StatefulWidget {
   final ContainerItemModel containerItemModel;
 
-  ContainerScreenBody({
+  const ContainerScreenBody({
     super.key,
     required this.containerItemModel,
   });
@@ -115,35 +116,31 @@ class ContainerScreenBody extends StatefulWidget {
 
 class ContainerScreenBodyState
     extends State<ContainerScreenBody> {
+  XFile? _selectedPhoto;
+
   Future _takePhoto(BuildContext context) async {
     bool? isCamera = await showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: Text("Camera"),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Text("gallery "),
-                ),
-              ],
-            ),
-          ),
+      builder: (context) => CameraGalleryModal(),
     );
+
+    if (isCamera == null) return;
+
+    final imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(
+      source:
+          isCamera
+              ? ImageSource.camera
+              : ImageSource.gallery,
+    );
+
+    setState(() {
+      _selectedPhoto = file;
+    });
   }
 
   void initButtons() {
-    final List<Widget> listTileButtons = [
+    listTileButtons = [
       ListTileButton(text: "add more", onTap: () {}),
       ListTileButton(
         text: "recommend with ai",
@@ -151,7 +148,7 @@ class ContainerScreenBodyState
       ),
       ListTileButton(
         text: "take a photo",
-        onTap: () async => await _takePhoto,
+        onTap: () async => await _takePhoto(context),
       ),
     ];
   }
@@ -260,6 +257,51 @@ class HorizontalLineSeparator extends StatelessWidget {
       width: double.infinity,
       height: 1.0,
       color: Theme.of(context).colorScheme.primaryContainer,
+    );
+  }
+}
+
+class CameraGalleryModal extends StatelessWidget {
+  const CameraGalleryModal({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          StyledButton(
+            child: Text(
+              "camera",
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium!.copyWith(
+                color:
+                    Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+          ),
+          SizedBox(height: 8.0),
+          StyledButton(
+            child: Text(
+              "gallery",
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium!.copyWith(
+                color:
+                    Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
