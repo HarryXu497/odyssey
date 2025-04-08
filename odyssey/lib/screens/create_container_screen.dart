@@ -12,7 +12,7 @@ class CreateContainerScreen extends StatelessWidget {
       startingIndex: 0,
       appBar: AppBar(
         title: Text(
-          "ADD ITEM",
+          "NEW CONTAINER",
           style: Theme.of(context).textTheme.headlineLarge,
         ),
         backgroundColor:

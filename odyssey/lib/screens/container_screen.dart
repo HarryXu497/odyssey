@@ -352,13 +352,22 @@ class ContainerScreenBodyState
             final item =
                 widget.containerItemModel.itemModels[index];
 
-            return CheckboxListTile(
-              value: item.checked,
-              onChanged: _onItemChecked(item),
-              title: Text(
-                item.name.toLowerCase(),
-                style:
-                    Theme.of(context).textTheme.titleMedium,
+            return Dismissible(
+              key: Key(item.id),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) async {
+                await pb
+                    .collection("items")
+                    .delete(item.id);
+              },
+              child: CheckboxListTile(
+                value: item.checked,
+                onChanged: _onItemChecked(item),
+                title: Text(
+                  item.name.toLowerCase(),
+                  style:
+                      Theme.of(context).textTheme.titleMedium,
+                ),
               ),
             );
           } else {

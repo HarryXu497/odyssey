@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 /// A dropdown that loads/saves its value to SharedPreferences,
 /// and guards against missing/duplicate options.
 class PreferenceDropdown extends StatefulWidget {
@@ -22,10 +21,12 @@ class PreferenceDropdown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PreferenceDropdownState createState() => _PreferenceDropdownState();
+  _PreferenceDropdownState createState() =>
+      _PreferenceDropdownState();
 }
 
-class _PreferenceDropdownState extends State<PreferenceDropdown> {
+class _PreferenceDropdownState
+    extends State<PreferenceDropdown> {
   late SharedPreferences _prefs;
   String? _currentValue;
   bool _loading = true;
@@ -77,24 +78,38 @@ class _PreferenceDropdownState extends State<PreferenceDropdown> {
       decoration: InputDecoration(
         labelText: widget.label,
         border: const OutlineInputBorder(),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 8,
+        ),
       ),
       value: _currentValue,
-      items: widget.options
-          .map((opt) => DropdownMenuItem(value: opt, child: Text(opt)))
-          .toList(),
+      items:
+          widget.options
+              .map(
+                (opt) => DropdownMenuItem(
+                  value: opt,
+                  child: Text(
+                    opt,
+                    style:
+                        Theme.of(
+                          context,
+                        ).textTheme.bodyLarge,
+                  ),
+                ),
+              )
+              .toList(),
       onChanged: _onChanged,
     );
   }
 }
 
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() =>
+      _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -109,7 +124,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12.0,
+        vertical: 8.0,
+      ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,12 +156,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-
 class ProfileScreenAppBar extends StatelessWidget {
   const ProfileScreenAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Text("PROFILE", style: Theme.of(context).textTheme.headlineLarge);
+    return Text(
+      "PROFILE",
+      style: Theme.of(context).textTheme.headlineLarge,
+    );
   }
 }
