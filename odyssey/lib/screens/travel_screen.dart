@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:odyssey/models/trips/trip_container_item_model.dart';
+import 'package:odyssey/pocketbase.dart';
 
 class TravelScreen extends StatefulWidget {
   const TravelScreen({super.key});
@@ -8,6 +10,37 @@ class TravelScreen extends StatefulWidget {
 }
 
 class _TravelScreenState extends State<TravelScreen> {
+    List<TripContainerItemModel>? _trips;
+
+  Future _getTrips() async {
+    final rawData = await pb
+      .collection("trips")
+      .getFullList(expand: "containers,containers.items");
+
+    final trips = rawData.map(TripContainerItemModel.fromExpandedRecord).toList();
+
+    setState(() {
+      _trips = trips;
+    });
+
+  }
+
+  void initTrips() async {
+    await _getTrips();
+
+    await pb
+        .collection("trips")
+        .subscribe("*", (_) => _getTrips());
+
+    await pb
+        .collection("containers")
+        .subscribe("*", (_) => _getTrips());
+
+    await pb
+        .collection("items")
+        .subscribe("*", (_) => _getTrips());
+  }
+
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
