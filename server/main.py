@@ -7,6 +7,12 @@ from ultralytics import YOLO
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic import BaseModel
 import pathlib
+import openai
+
+from dotenv import load_dotenv
+
+load_dotenv()  # This will load variables from .env file into the environment
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI()
 
@@ -15,6 +21,10 @@ model = YOLO("yolov8x-oiv7.pt")
 class YoloResult(BaseModel):
     class_name: str
     confidence: float
+
+class RecommendationData(BaseModel):
+    container_name: str
+    items: list[str]
 
 logger = logging.getLogger('uvicorn.error')
 logger.setLevel(logging.DEBUG)
@@ -68,3 +78,39 @@ async def process_image(file: UploadFile):
 
 
     return { "items": items }
+
+@app.post("/recommend/")
+async def recommend(body: RecommendationData):
+    logger.debug(f"Container Name: {body.container_name}")
+    logger.debug(f"Items: {body.items}")
+
+    # Create a prompt for ChatGPT based on the input data
+    prompt = (
+        f"You are a travel recommendation assistant. "
+        f"Given the container name '{body.container_name}' and these items: {', '.join(body.items)}, "
+        "what additional travel recommendations can you suggest?"
+    )
+    
+    try:
+        # Call ChatGPT's API using the openai library
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful travel assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+        )
+        
+        # Safely extract the content from the response
+        received_items = response.choices[0].message.content.strip()
+    except Exception as e:
+        logger.error(f"ChatGPT API error: {e}")
+        raise HTTPException(status_code=500, detail="ChatGPT request failed")
+
+    response =  {
+        "container": body.container_name,
+        "received_items": received_items,
+        "message": "Recommendations processed successfully."
+    }
+    return response
