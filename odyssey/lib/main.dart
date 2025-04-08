@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:odyssey/routes/route_names.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:shared_preferences/shared_preferences.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 34, 56, 67),
@@ -17,9 +18,19 @@ final colorScheme = ColorScheme.fromSeed(
 );
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   tz.initializeTimeZones();
   await dotenv.load(fileName: ".env");
 
+  final prefs = await SharedPreferences.getInstance();
+  final seeded = prefs.getBool('prefsSeeded') ?? false;
+  if (!seeded) {
+    await prefs.setString('weight', 'normal packer');   // light packer | normal packer | heavy packer
+    await prefs.setString('outdoors', 'no');            // yes | no
+    await prefs.setString('snacker', 'sometimes');      // no | sometimes | yes
+    await prefs.setBool('prefsSeeded', true);
+  }
   runApp(const OdysseyApp());
 }
 

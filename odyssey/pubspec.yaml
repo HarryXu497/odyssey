@@ -46,6 +46,7 @@ dependencies:
   timezone: ^0.10.0
   open_meteo: ^2.0.3
   weather_icons: ^3.0.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
