@@ -1,6 +1,6 @@
 # odyssey
 
-A mobile travel companion app tailored for you, by Patrick Wei && Harry Xu.
+A mobile travel companion app tailored for you, by Patrick Wei and Harry Xu.
 
 ## features
 
