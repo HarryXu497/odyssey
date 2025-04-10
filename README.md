@@ -14,8 +14,8 @@ Odyssey also provides a travel mode as a easy-to-use way to keep track of all th
 
 ## technologies & tools
 
-* Flutter (frontend)
-* FastAPI (backend)
+* Flutter with Dart (frontend)
+* FastAPI with Python (backend)
 * PocketBase (backend)
 * YOLOv8
 * Google Maps API
